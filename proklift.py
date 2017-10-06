@@ -26,15 +26,15 @@ def min_recursive(first_seq,second_seq,first_ind,second_ind,pos_dict,factor1,fac
     range2 = [second_ind,second_ind+factor2*min_seq]
     seq1_inds = zip(first_seq[:min_seq],range(min(range1),max(range1)+1)[::factor1])
     seq2_inds = zip(second_seq[:min_seq],range(min(range2),max(range2)+1)[::factor2])
-    if factor_match == 0:
-        try:
-            print zip(*seq1_inds)[1]
-            print zip(*seq2_inds)[1]
-        except IndexError:
-            print first_seq, second_seq
-            print seq1_inds
-            print seq2_inds
-            return(pos_dict)
+    #if factor_match == 0:
+        #try:
+            #print zip(*seq1_inds)[1]
+            #print zip(*seq2_inds)[1]
+        #except IndexError:
+            #print first_seq, second_seq
+            #print seq1_inds
+            #print seq2_inds
+            #return(pos_dict)
     pos_dict.update({x:(y,factor_match) for x,y in zip(zip(*seq1_inds)[1],zip(*seq2_inds)[1])})
     #if factor_match == 0:
     #    print {x:(y,factor_match) for x,y in zip(zip(*seq1_inds)[1],zip(*seq2_inds)[1])}
@@ -125,8 +125,8 @@ def main():
     parser.add_argument('-x','--alignment',type=str,required=True,help='alignment file (xmfa format) from Mauve GUI for two species')
     parser.add_argument('-b','--bed',type=str,required=True,help='bed file with positions to exchange')
     parser.add_argument('-o','--output',type=str,required=False,help='output file name')
-    parser.add_argument('-s','--save',action='store_true',required=False,help='save bed file of input positions with exact matches')
-    parser.add_argument('-p','--partial_overlap',action='store_true',required=False,help='allow partial overlaps, report separated')
+    parser.add_argument('-s','--save',action='store_true',required=False,help='TODO: save bed file of input positions with exact matches')
+    parser.add_argument('-p','--partial_overlap',action='store_true',required=False,help='TODO: allow partial overlaps, report separated')
     parser.add_argument('-v','--version',action='store_true',required=False,help='print version')
     args = parser.parse_args()
 
