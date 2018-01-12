@@ -47,11 +47,11 @@ def min_recursive(first_seq,second_seq,first_ind,second_ind,pos_dict,factor1,fac
         i+=1
         return(min_recursive(first_seq,second_seq,first_ind,second_ind,pos_dict,factor1,factor2,factor_match,i))
     else:
-        print i
+        #print i
         return(pos_dict)
 
 def bed2bed(pos_dict,bedfi,outname):
-    """makes dictionary for conversion of original bed indices to aligned genome indices"""
+    """converts original bed indices to aligned genome indices and writes to output file"""
     with open(bedfi,'r') as bed:
         with open(outname,'w') as outfi:
             for line in bed:
@@ -67,8 +67,8 @@ def bed2bed(pos_dict,bedfi,outname):
                     new_end = max(pos_dict[start][0],pos_dict[end][0])
                     outfi.write('\t'.join([str(x) for x in [2,new_start,new_end,pos_dict[end][1],'.',strand,1,start,end]])+'\n')
 
-def change_inds(bedfi,xmfafi,outname,partial_overlap,save):
-    """main function - reads in xmfa and bed, outputs conversion"""
+def change_inds(bedfi,xmfafi,outname): #,partial_overlap,save):
+    """main function - reads in xmfa and bed"""
     pos_dict = {}
     with open(xmfafi,'r') as xmfa:
         new_alignment = False
@@ -118,7 +118,9 @@ def change_inds(bedfi,xmfafi,outname,partial_overlap,save):
     bed2bed(pos_dict,bedfi,outname)
 
 def main():
-    #parse command line options
+    """parses command line options"""
+    #TODO: fix off-by-one errors in output! from conversion stage?
+    #TODO: allow multiple contigs 
     from argparse import ArgumentParser
     parser = ArgumentParser(description='Liftover bed positions')
     parser.add_argument('-x','--alignment',type=str,required=True,help='alignment file (xmfa format) from Mauve GUI for two species')
@@ -130,7 +132,7 @@ def main():
     args = parser.parse_args()
 
     if args.version:
-        print 'proklift 0.1'
+        print 'proklift 0.2'
         sys.exit(0)
 
     if not args.output:
@@ -138,7 +140,7 @@ def main():
     else:
         output=args.output
 
-    change_inds(args.bed,args.alignment,output,args.partial_overlap,args.save)
+    change_inds(args.bed,args.alignment,output) #,args.partial_overlap,args.save)
 
 if __name__ == "__main__":
     main()
